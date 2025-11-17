@@ -3,209 +3,253 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scientist Data Collection Form</title>
+    <title>Scientist Data Collection</title>
     <style>
+      /* -----------------------------
+         Basic Reset & Layout
+         ----------------------------- */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 15px;
+        padding: 16px;
         min-height: 100vh;
+        color: #222;
       }
-
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        padding: 25px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+        padding: 22px;
       }
-
       h1 {
         color: #667eea;
         text-align: center;
-        margin-bottom: 5px;
-        font-size: 2em;
+        font-size: 1.9rem;
+        margin-bottom: 6px;
       }
-
       .subtitle {
         text-align: center;
         color: #666;
-        margin-bottom: 20px;
-        font-size: 1em;
+        margin-bottom: 16px;
+        font-size: 0.98rem;
       }
 
+      /* -----------------------------
+         Sections / Form
+         ----------------------------- */
       .section {
-        margin-bottom: 25px;
-        padding: 20px;
         background: #f8f9fa;
+        padding: 16px;
         border-radius: 10px;
+        margin-bottom: 18px;
         border-left: 4px solid #667eea;
       }
-
       .section-title {
         color: #764ba2;
-        font-size: 1.2em;
-        margin-bottom: 15px;
         font-weight: 600;
+        margin-bottom: 12px;
+        font-size: 1.1rem;
       }
-
       .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
-
       label {
         display: block;
         margin-bottom: 6px;
         color: #333;
         font-weight: 500;
-        font-size: 0.9em;
+        font-size: 0.92rem;
       }
-
       input[type="text"],
       input[type="number"],
       select,
-      textarea {
+      textarea,
+      input[type="date"] {
         width: 100%;
         padding: 10px;
         border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 1em;
-      }
-
-      input[type="file"] {
-        padding: 12px;
-        border: 2px dashed #ddd;
         border-radius: 8px;
-        width: 100%;
+        font-size: 1rem;
+      }
+      textarea {
+        min-height: 90px;
+        resize: vertical;
       }
 
+      /* two-column grid */
       .two-column {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
+        gap: 14px;
       }
 
-      /* TABLE FIXES */
+      /* table styles */
       .table-container {
-        width: 100%;
         overflow-x: auto;
+        margin-top: 6px;
       }
-
       table {
         width: 100%;
-        min-width: 700px; /* Ensures table remains readable on mobile */
         border-collapse: collapse;
+        min-width: 700px;
+        background: white;
       }
-
       th {
         background: #667eea;
-        color: white;
+        color: #fff;
         padding: 10px;
         text-align: left;
       }
-
       td {
         padding: 8px;
         border-bottom: 1px solid #eee;
       }
 
+      /* Buttons */
       .btn {
-        padding: 12px 18px;
+        padding: 10px 16px;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        font-size: 1em;
         font-weight: 600;
-        margin-bottom: 10px;
       }
-
       .btn-primary {
         background: #667eea;
         color: white;
-        width: 100%;
       }
-
       .btn-secondary {
         background: #28a745;
         color: white;
       }
-
       .btn-danger {
         background: #dc3545;
         color: white;
+        padding: 8px 10px;
+        font-weight: 700;
       }
 
-      /* IMAGE PREVIEW MOBILE FIX */
+      /* image preview */
       #imagePreviewGrid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        margin-top: 8px;
       }
-
+      .image-preview-item {
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        padding: 6px;
+        background: white;
+        text-align: center;
+      }
       .image-preview-item img {
-        height: 120px;
+        max-width: 100%;
+        height: 110px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto 6px;
+      }
+      .remove-image {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        cursor: pointer;
       }
 
-      /* MOBILE RESPONSIVE ADJUSTMENTS */
-      @media (max-width: 768px) {
-        .container {
-          padding: 15px;
-        }
+      /* alert */
+      .alert {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 14px;
+        display: none;
+      }
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+      }
+      .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+      }
 
-        h1 {
-          font-size: 1.7em;
-        }
+      /* footer bar with draft note and buttons */
+      .footer-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .draft-note {
+        color: #444;
+        font-size: 0.95rem;
+        flex: 1;
+      }
+      .footer-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
 
-        .section {
-          padding: 15px;
-        }
-
-        .section-title {
-          font-size: 1.1em;
-        }
-
+      /* responsiveness */
+      @media (max-width: 820px) {
         .two-column {
           grid-template-columns: 1fr;
-          gap: 10px;
         }
-
         table {
-          font-size: 0.85em;
-          min-width: 650px;
+          min-width: 620px;
         }
-
-        .btn-secondary {
-          width: 100%;
+        .footer-bar {
+          flex-direction: column;
+          align-items: stretch;
+          text-align: center;
         }
-
-        textarea {
-          font-size: 0.95em;
+        .draft-note {
+          order: 2;
+        }
+        .footer-actions {
+          order: 1;
+          justify-content: center;
         }
       }
 
       @media (max-width: 480px) {
         h1 {
-          font-size: 1.5em;
+          font-size: 1.5rem;
         }
-
-        .subtitle {
-          font-size: 0.9em;
+        textarea {
+          min-height: 70px;
         }
-
-        #imagePreviewGrid {
-          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        }
-
         .image-preview-item img {
-          height: 100px;
+          height: 90px;
         }
+      }
+
+      /* hidden utility class */
+      .hidden {
+        display: none !important;
+      }
+      .small {
+        font-size: 0.88rem;
+        color: #666;
+      }
+      .readonly-field {
+        background: #e9ecef;
       }
     </style>
   </head>
@@ -217,16 +261,29 @@
       <div id="alertBox" class="alert"></div>
 
       <form id="scientistForm">
-        <!-- Basic Information -->
+        <!-- BASIC INFO -->
         <div class="section">
           <h2 class="section-title">Basic Information</h2>
+
+          <div class="form-group">
+            <label for="smd_name">SMD Name</label>
+            <input
+              type="text"
+              id="smd_name"
+              value="CROP SCIENCE"
+              placeholder="e.g., CROP SCIENCE"
+            />
+            <small class="small"
+              >If you wish to change SMD name, edit this field.</small
+            >
+          </div>
 
           <div class="form-group">
             <label for="institute_name">Institute Name Short*</label>
             <div style="display: flex; align-items: center">
               <span
                 style="
-                  padding: 12px;
+                  padding: 10px 12px;
                   background: #e9ecef;
                   border: 2px solid #ddd;
                   border-right: none;
@@ -237,10 +294,14 @@
               <input
                 type="text"
                 id="institute_name"
+                value="IIAB"
                 required
                 style="border-radius: 0 8px 8px 0; flex: 1"
               />
             </div>
+            <small class="small"
+              >Default: <strong>IIAB</strong> — you may change it.</small
+            >
           </div>
 
           <div class="form-group">
@@ -249,7 +310,7 @@
               type="text"
               id="scientist_name"
               required
-              placeholder="Enter scientist name"
+              placeholder="Enter scientist name (no titles: e.g., Dr., Mr. etc.)"
             />
           </div>
 
@@ -258,26 +319,24 @@
               <label for="month">Month*</label>
               <select id="month" required>
                 <option value="">Select Month</option>
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
+                <option>January</option>
+                <option>February</option>
+                <option>March</option>
+                <option>April</option>
+                <option>May</option>
+                <option>June</option>
+                <option>July</option>
+                <option>August</option>
+                <option>September</option>
+                <option>October</option>
+                <option>November</option>
+                <option>December</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="year">Year*</label>
-              <select id="year" required>
-                <option value="">Select Year</option>
-              </select>
+              <select id="year" required></select>
             </div>
           </div>
         </div>
@@ -285,7 +344,6 @@
         <!-- H-Index & Citations -->
         <div class="section">
           <h2 class="section-title">H-Index & Citations</h2>
-
           <div class="two-column">
             <div class="form-group">
               <label for="h_ind_google">H-Index (Google Scholar)</label>
@@ -296,7 +354,6 @@
                 placeholder="Enter H-Index"
               />
             </div>
-
             <div class="form-group">
               <label for="h_ind_res_gate">H-Index (Research Gate)</label>
               <input
@@ -318,7 +375,6 @@
                 placeholder="Enter citations"
               />
             </div>
-
             <div class="form-group">
               <label for="num_cit_res_gate">Citations (Research Gate)</label>
               <input
@@ -331,11 +387,13 @@
           </div>
         </div>
 
-        <!-- External Projects -->
+        <!-- PROJECTS TABLE -->
         <div class="section">
-          <h2 class="section-title">Externally Funded Projects (>50 Lakhs)</h2>
+          <h2 class="section-title">
+            Externally Funded Projects (&gt;50 Lakhs)
+          </h2>
           <div class="table-container">
-            <table id="projectsTable">
+            <table id="projectsTable" class="data-table">
               <thead>
                 <tr>
                   <th>S.No.</th>
@@ -353,18 +411,18 @@
           </div>
           <button
             type="button"
-            class="btn btn-secondary add-more"
+            class="btn btn-secondary"
             onclick="addProjectRow()"
           >
             + Add Project
           </button>
         </div>
 
-        <!-- Programs Organized -->
+        <!-- PROGRAMS TABLE -->
         <div class="section">
           <h2 class="section-title">Programs Organized</h2>
           <div class="table-container">
-            <table id="programsTable">
+            <table id="programsTable" class="data-table">
               <thead>
                 <tr>
                   <th>S.No.</th>
@@ -381,18 +439,18 @@
           </div>
           <button
             type="button"
-            class="btn btn-secondary add-more"
+            class="btn btn-secondary"
             onclick="addProgramRow()"
           >
             + Add Program
           </button>
         </div>
 
-        <!-- IPR Generated -->
+        <!-- IPR -->
         <div class="section">
           <h2 class="section-title">IPR Generated</h2>
           <div class="table-container">
-            <table id="iprTable">
+            <table id="iprTable" class="data-table">
               <thead>
                 <tr>
                   <th>S.No.</th>
@@ -405,20 +463,16 @@
               <tbody id="iprBody"></tbody>
             </table>
           </div>
-          <button
-            type="button"
-            class="btn btn-secondary add-more"
-            onclick="addIPRRow()"
-          >
+          <button type="button" class="btn btn-secondary" onclick="addIPRRow()">
             + Add IPR
           </button>
         </div>
 
-        <!-- Technology Commercialization -->
+        <!-- TECH COMMERCIALIZATION -->
         <div class="section">
           <h2 class="section-title">Technology Commercialization</h2>
           <div class="table-container">
-            <table id="techComTable">
+            <table id="techComTable" class="data-table">
               <thead>
                 <tr>
                   <th>S.No.</th>
@@ -435,18 +489,18 @@
           </div>
           <button
             type="button"
-            class="btn btn-secondary add-more"
+            class="btn btn-secondary"
             onclick="addTechComRow()"
           >
             + Add Entry
           </button>
         </div>
 
-        <!-- Publications -->
+        <!-- PUBLICATIONS -->
         <div class="section">
           <h2 class="section-title">Publications</h2>
           <div class="table-container">
-            <table id="pubTable">
+            <table id="pubTable" class="data-table">
               <thead>
                 <tr>
                   <th>S.No.</th>
@@ -459,20 +513,16 @@
               <tbody id="pubBody"></tbody>
             </table>
           </div>
-          <button
-            type="button"
-            class="btn btn-secondary add-more"
-            onclick="addPubRow()"
-          >
+          <button type="button" class="btn btn-secondary" onclick="addPubRow()">
             + Add Publication
           </button>
         </div>
 
-        <!-- Training Conducted -->
+        <!-- TRAINING -->
         <div class="section">
           <h2 class="section-title">Training Conducted</h2>
           <div class="table-container">
-            <table id="trainTable">
+            <table id="trainTable" class="data-table">
               <thead>
                 <tr>
                   <th>S.No.</th>
@@ -490,19 +540,18 @@
           </div>
           <button
             type="button"
-            class="btn btn-secondary add-more"
+            class="btn btn-secondary"
             onclick="addTrainRow()"
           >
             + Add Training
           </button>
         </div>
 
-        <!-- Research Highlights -->
+        <!-- RESEARCH HIGHLIGHTS -->
         <div class="section">
           <h2 class="section-title">
             Significant Research Findings (Required)*
           </h2>
-
           <div class="form-group">
             <label for="res_highlight"
               >Research Highlight (300-500 words)*</label
@@ -513,160 +562,479 @@
               required
               placeholder="Enter significant research findings (type NA if nothing) with potential impact..."
             ></textarea>
-            <small style="color: #666"
+            <small class="small"
               >Word count: <span id="wordCount">0</span></small
             >
           </div>
 
           <div class="form-group">
             <label for="res_highlight_fig"
-              >Upload Figures (JPEG/PNG/TIFF) - Multiple files allowed*</label
+              >Upload Figures (JPEG/PNG/TIFF) — Multiple files allowed</label
             >
-            <!--multiple
-            required: write this just below the line ... you can select multiple images-->
             <input
               type="file"
               id="res_highlight_fig"
               accept=".jpg,.jpeg,.png,.tiff,.tif"
               multiple
             />
-            <small style="color: #666; display: block; margin-top: 5px"
-              >You can select multiple images</small
+            <small class="small"
+              >You can select multiple images. Images are saved in saved
+              drafts.</small
             >
-          </div>
 
-          <!-- Image Preview Area -->
-          <div
-            id="imagePreviewContainer"
-            style="display: none; margin-top: 15px"
-          >
-            <h4 style="color: #764ba2; margin-bottom: 10px">
-              Selected Images Preview:
-            </h4>
             <div
-              id="imagePreviewGrid"
-              style="
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 15px;
-              "
-            ></div>
+              id="imagePreviewContainer"
+              style="display: none; margin-top: 10px"
+            >
+              <h4 style="color: #764ba2; margin-bottom: 8px">
+                Selected Images Preview:
+              </h4>
+              <div id="imagePreviewGrid"></div>
+            </div>
           </div>
         </div>
-        <button
-          type="button"
-          class="btn btn-secondary"
-          id="saveDraftBtn"
-          style="font-size: 1.1em; padding: 12px 30px; margin-bottom: 15px"
-        >
-          Save Draft
-        </button>
-
-        <!-- Submit Button -->
-        <div class="submit-section">
-          <button
-            type="submit"
-            class="btn btn-primary"
-            style="font-size: 1.2em; padding: 15px 40px"
-          >
-            Submit
-          </button>
+        <!-- FOOTER BAR: draft note + actions -->
+        <div class="footer-bar">
+          <div class="draft-note">
+            Drafts auto-load on open; click Save Draft to keep current inputs
+            locally.
+          </div>
+          <div class="footer-actions">
+            <button type="button" class="btn btn-secondary" id="saveDraftBtn">
+              Save Draft
+            </button>
+            <button type="button" class="btn btn-danger" id="clearDraftBtn">
+              Clear Draft
+            </button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+              Submit
+            </button>
+          </div>
         </div>
       </form>
     </div>
 
     <script>
-      // Initialize year dropdown
+      /* -------------------------
+         Initialization
+         ------------------------- */
       const yearSelect = document.getElementById("year");
       const currentYear = new Date().getFullYear();
-      for (let year = currentYear; year >= currentYear - 10; year--) {
-        const option = document.createElement("option");
-        option.value = year;
-        option.textContent = year;
-        yearSelect.appendChild(option);
+      for (let y = currentYear; y >= currentYear - 10; y--) {
+        const opt = document.createElement("option");
+        opt.value = y;
+        opt.textContent = y;
+        yearSelect.appendChild(opt);
       }
 
-      // Auto-capitalize function
-      function autoCapitalize(input) {
-        input.addEventListener("input", function (e) {
-          const start = this.selectionStart;
-          const end = this.selectionEnd;
-          this.value = this.value.toUpperCase();
-          this.setSelectionRange(start, end);
-        });
+      // small utilities
+      function showAlert(message, type = "success") {
+        const box = document.getElementById("alertBox");
+        box.textContent = message;
+        box.className =
+          "alert " + (type === "success" ? "alert-success" : "alert-error");
+        box.style.display = "block";
+        setTimeout(() => {
+          box.style.display = "none";
+        }, 5000);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      // Remove special characters
-      function removeSpecialChars(input) {
-        input.addEventListener("input", function (e) {
+      // remove special chars from scientist name while typing
+      document
+        .getElementById("scientist_name")
+        .addEventListener("input", function () {
           this.value = this.value.replace(/[.,!@#$^&()\-_+=;:'"]/g, "");
         });
-      }
 
-      // Only remove special characters during typing, NO auto-capitalize
-      removeSpecialChars(document.getElementById("scientist_name"));
-
-      // Word count for research highlight
+      // wordcount
       document
         .getElementById("res_highlight")
         .addEventListener("input", function () {
           const text = this.value.trim();
           const words = text ? text.split(/\s+/).length : 0;
           document.getElementById("wordCount").textContent = words;
-          // NO auto-capitalize here - only during save
         });
-      /*------------------------------------------------------
-        SAVE DRAFT TO LOCAL STORAGE
-      ------------------------------------------------------*/
-      document.getElementById("saveDraftBtn").addEventListener("click", () => {
-        const data = collectDraftData();
-        localStorage.setItem("scientist_draft", JSON.stringify(data));
-        alert("✔ Draft saved successfully! You can continue later.");
+
+      /* -------------------------
+         IMAGE HANDLING (preview & selectedFiles)
+         ------------------------- */
+      let selectedFiles = []; // array of File objects (live session)
+      const fileInput = document.getElementById("res_highlight_fig");
+      const previewContainer = document.getElementById("imagePreviewContainer");
+      const previewGrid = document.getElementById("imagePreviewGrid");
+
+      fileInput.addEventListener("change", (e) => {
+        const files = Array.from(e.target.files || []);
+        // replace selectedFiles with the input's files
+        selectedFiles = files.slice();
+        displayImagePreviews(selectedFiles);
       });
 
-      /*------------------------------------------------------
-        AUTO-LOAD DRAFT IF EXISTS
-      ------------------------------------------------------*/
-      window.addEventListener("load", () => {
-        const draft = localStorage.getItem("scientist_draft");
-        if (draft) {
-          restoreDraft(JSON.parse(draft));
+      function displayImagePreviews(files) {
+        previewGrid.innerHTML = "";
+        if (!files.length) {
+          previewContainer.style.display = "none";
+          return;
+        }
+        previewContainer.style.display = "block";
+        files.forEach((file, idx) => {
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            const div = document.createElement("div");
+            div.className = "image-preview-item";
+            div.innerHTML = `
+              <button class="remove-image" title="Remove" onclick="removeImage(${idx})">×</button>
+              <img src="${ev.target.result}" alt="${file.name}" />
+              <div class="small">${file.name}</div>
+            `;
+            previewGrid.appendChild(div);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function removeImage(index) {
+        selectedFiles.splice(index, 1);
+        // update file input FileList using DataTransfer
+        const dt = new DataTransfer();
+        selectedFiles.forEach((f) => dt.items.add(f));
+        fileInput.files = dt.files;
+        displayImagePreviews(selectedFiles);
+      }
+
+      /* -------------------------
+         TABLE ROWS MANAGEMENT
+         Each addXRow creates new row; deleteRow removes it.
+         ------------------------- */
+      let projectCounter = 0,
+        programCounter = 0,
+        iprCounter = 0,
+        techComCounter = 0,
+        pubCounter = 0,
+        trainCounter = 0;
+
+      function addProjectRow() {
+        projectCounter++;
+        const tbody = document.getElementById("projectsBody");
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${projectCounter}</td>
+          <td><input type="text" placeholder="Title or NA" onchange="checkProjectNA(this)"></td>
+          <td>
+            <select onchange="handleAgencySelect(this)">
+              <option value="">Select Agency</option><option>RKVY</option><option>DST</option><option>DBT</option><option>ANRF</option><option>SERB</option><option>OTHER</option>
+            </select>
+            <input type="text" class="hidden" placeholder="Specify agency">
+          </td>
+          <td><input type="date" onchange="updateProjectDuration(this)"></td>
+          <td><input type="date" onchange="updateProjectDuration(this)"></td>
+          <td><input type="text" readonly placeholder="Auto-calculated"></td>
+          <td><input type="number" placeholder="Budget"></td>
+          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+        `;
+      }
+      function handleAgencySelect(sel) {
+        const text = sel.nextElementSibling;
+        if (sel.value === "OTHER") {
+          text.classList.remove("hidden");
+          text.required = true;
+        } else {
+          text.classList.add("hidden");
+          text.required = false;
+          text.value = "";
+        }
+      }
+      function checkProjectNA(input) {
+        const row = input.closest("tr");
+        const inputs = row.querySelectorAll("input, select");
+        if (input.value.trim().toUpperCase() === "NA") {
+          inputs.forEach((el, i) => {
+            if (i > 1) el.disabled = true;
+          });
+        } else inputs.forEach((el) => (el.disabled = false));
+      }
+      function updateProjectDuration(input) {
+        const row = input.closest("tr");
+        const s = row.cells[3].querySelector("input").value;
+        const e = row.cells[4].querySelector("input").value;
+        row.cells[5].querySelector("input").value = calculateMonthsDuration(
+          s,
+          e
+        );
+      }
+
+      function addProgramRow() {
+        programCounter++;
+        const tbody = document.getElementById("programsBody");
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${programCounter}</td>
+          <td>
+            <select onchange="handleProgramSelect(this)">
+              <option value="">Select Type</option><option>AICRP AGM</option><option>AINP AGM</option><option>Conference</option><option>Symposium</option><option>OTHER</option>
+            </select>
+            <input type="text" class="hidden" placeholder="Specify type">
+          </td>
+          <td><input type="date" onchange="updateProgramDuration(this)"></td>
+          <td><input type="date" onchange="updateProgramDuration(this)"></td>
+          <td><input type="text" readonly placeholder="Auto-calculated"></td>
+          <td><input type="text" placeholder="Venue"></td>
+          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+        `;
+      }
+      function handleProgramSelect(sel) {
+        const txt = sel.nextElementSibling;
+        if (sel.value === "OTHER") {
+          txt.classList.remove("hidden");
+          txt.required = true;
+        } else {
+          txt.classList.add("hidden");
+          txt.required = false;
+          txt.value = "";
+        }
+      }
+      function updateProgramDuration(input) {
+        const row = input.closest("tr");
+        const s = row.cells[2].querySelector("input").value;
+        const e = row.cells[3].querySelector("input").value;
+        row.cells[4].querySelector("input").value = calculateFullDuration(s, e);
+      }
+
+      function addIPRRow() {
+        iprCounter++;
+        const tbody = document.getElementById("iprBody");
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${iprCounter}</td>
+          <td>
+            <select><option value="">Select Type</option><option>Patent</option><option>Copyright</option><option>Trademark</option><option>Design</option><option>GI</option></select>
+          </td>
+          <td><input type="date"></td>
+          <td><input type="text" placeholder="Registration No."></td>
+          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+        `;
+      }
+
+      function addTechComRow() {
+        techComCounter++;
+        const tbody = document.getElementById("techComBody");
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${techComCounter}</td>
+          <td>
+            <select><option value="">Select Head</option><option>Technology</option><option>Varieties</option><option>MoA Signed</option></select>
+          </td>
+          <td><input type="text" placeholder="Name"></td>
+          <td><input type="text" placeholder="Licensee"></td>
+          <td><input type="date"></td>
+          <td><input type="number" placeholder="License Fee"></td>
+          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+        `;
+      }
+
+      function addPubRow() {
+        pubCounter++;
+        const tbody = document.getElementById("pubBody");
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${pubCounter}</td>
+          <td><textarea rows="2" placeholder="APA reference"></textarea></td>
+          <td><input type="text" placeholder="IF or NA" onchange="updateNAAS(this)"></td>
+          <td><input type="text" placeholder="NAAS Rating"></td>
+          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+        `;
+      }
+      function updateNAAS(inp) {
+        const row = inp.closest("tr");
+        const naas = row.cells[3].querySelector("input");
+        const v = inp.value.trim().toUpperCase();
+        if (v !== "NA" && v !== "" && !isNaN(parseFloat(v))) {
+          naas.value = (parseFloat(v) + 6).toFixed(2);
+        } else if (v === "NA") {
+          naas.value = "";
+          naas.readOnly = false;
+        }
+      }
+
+      function addTrainRow() {
+        trainCounter++;
+        const tbody = document.getElementById("trainBody");
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td>${trainCounter}</td>
+          <td><input type="text" placeholder="Training name"></td>
+          <td>
+            <select onchange="handleSponsorSelect(this)"><option value="">Select Sponsor</option><option>ICAR</option><option>RKVY</option><option>DST</option><option>DBT</option><option>ANRF</option><option>SERB</option><option>OTHER</option></select>
+            <input type="text" class="hidden" placeholder="Specify sponsor">
+          </td>
+          <td><input type="date" onchange="updateTrainDuration(this)"></td>
+          <td><input type="date" onchange="updateTrainDuration(this)"></td>
+          <td><input type="text" readonly placeholder="Auto-calculated"></td>
+          <td><input type="number" placeholder="No. of participants"></td>
+          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+        `;
+      }
+      function handleSponsorSelect(sel) {
+        const t = sel.nextElementSibling;
+        if (sel.value === "OTHER") {
+          t.classList.remove("hidden");
+          t.required = true;
+        } else {
+          t.classList.add("hidden");
+          t.required = false;
+          t.value = "";
+        }
+      }
+      function updateTrainDuration(inp) {
+        const row = inp.closest("tr");
+        const s = row.cells[3].querySelector("input").value;
+        const e = row.cells[4].querySelector("input").value;
+        row.cells[5].querySelector("input").value = calculateFullDuration(s, e);
+      }
+
+      function deleteRow(btn) {
+        const r = btn.closest("tr");
+        r.remove();
+      }
+
+      // durations
+      function calculateMonthsDuration(start, end) {
+        if (!start || !end) return "";
+        const s = new Date(start),
+          e = new Date(end);
+        let months =
+          (e.getFullYear() - s.getFullYear()) * 12 +
+          (e.getMonth() - s.getMonth());
+        return months + (months === 1 ? " month" : " months");
+      }
+      function calculateFullDuration(start, end) {
+        if (!start || !end) return "";
+        const s = new Date(start),
+          e = new Date(end);
+        let years = e.getFullYear() - s.getFullYear();
+        let months = e.getMonth() - s.getMonth();
+        let days = e.getDate() - s.getDate();
+        if (days < 0) {
+          months--;
+          days += new Date(e.getFullYear(), e.getMonth(), 0).getDate();
+        }
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+        const parts = [];
+        if (years > 0) parts.push(years + (years === 1 ? " year" : " years"));
+        if (months > 0)
+          parts.push(months + (months === 1 ? " month" : " months"));
+        if (days > 0) parts.push(days + (days === 1 ? " day" : " days"));
+        return parts.join(", ") || "0 days";
+      }
+      /* -------------------------
+         DRAFT SAVE / RESTORE / CLEAR
+         - Images are saved in localStorage as base64 strings.
+         - On restore we recreate File objects and re-populate input.files using DataTransfer.
+         ------------------------- */
+      const DRAFT_KEY = "scientist_draft_v1";
+
+      document
+        .getElementById("saveDraftBtn")
+        .addEventListener("click", saveDraft);
+      document
+        .getElementById("clearDraftBtn")
+        .addEventListener("click", clearDraft);
+
+      async function saveDraft() {
+        try {
+          const draft = await collectDraftData(); // images included as base64
+          localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+          showAlert(
+            "✔ Draft saved successfully! You can continue later.",
+            "success"
+          );
+        } catch (err) {
+          console.error("Save draft error:", err);
+          showAlert("❌ Error saving draft: " + (err.message || err), "error");
+        }
+      }
+
+      function clearDraft() {
+        if (!confirm("Clear saved draft from this browser?")) return;
+        localStorage.removeItem(DRAFT_KEY);
+        resetForm(false); // keep tables reinitialized
+        showAlert("✔ Draft cleared.", "success");
+      }
+
+      // Collect draft data — including images as base64 (name, type, data)
+      async function collectDraftData() {
+        const tables = {
+          projects: getTableData("projectsBody"),
+          programs: getTableData("programsBody"),
+          ipr: getTableData("iprBody"),
+          tech_com: getTableData("techComBody"),
+          publications: getTableData("pubBody"),
+          training: getTableData("trainBody"),
+        };
+
+        // convert selectedFiles to base64 array
+        const images = await Promise.all(
+          (selectedFiles || []).map((file) => fileToBase64Obj(file))
+        );
+
+        return {
+          smd_name: document.getElementById("smd_name").value || "",
+          institute_name: document.getElementById("institute_name").value || "",
+          scientist_name: document.getElementById("scientist_name").value || "",
+          month: document.getElementById("month").value || "",
+          year: document.getElementById("year").value || "",
+          h_ind_google: document.getElementById("h_ind_google").value || "",
+          h_ind_res_gate: document.getElementById("h_ind_res_gate").value || "",
+          num_cit_google: document.getElementById("num_cit_google").value || "",
+          num_cit_res_gate:
+            document.getElementById("num_cit_res_gate").value || "",
+          res_highlight: document.getElementById("res_highlight").value || "",
+          images: images,
+          tables: tables,
+          saved_at: new Date().toISOString(),
+        };
+      }
+
+      function fileToBase64Obj(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const dataUrl = reader.result;
+            const base64 = dataUrl.split(",")[1];
+            resolve({ name: file.name, type: file.type, data: base64 });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // On load — try to restore draft
+      window.addEventListener("load", async function () {
+        const d = localStorage.getItem(DRAFT_KEY);
+        initializeTables(); // create one row default per table
+        if (d) {
+          try {
+            const parsed = JSON.parse(d);
+            await restoreDraft(parsed);
+            showAlert("✔ Draft loaded successfully.", "success");
+          } catch (err) {
+            console.error("Restore draft error:", err);
+          }
         }
       });
 
-      /*------------------------------------------------------
-        COLLECT ONLY USER INPUT (No processing)
-      ------------------------------------------------------*/
-      function collectDraftData() {
-        const data = {
-          institute_name: document.getElementById("institute_name").value,
-          scientist_name: document.getElementById("scientist_name").value,
-          month: document.getElementById("month").value,
-          year: document.getElementById("year").value,
-          h_ind_google: document.getElementById("h_ind_google").value,
-          h_ind_res_gate: document.getElementById("h_ind_res_gate").value,
-          num_cit_google: document.getElementById("num_cit_google").value,
-          num_cit_res_gate: document.getElementById("num_cit_res_gate").value,
-          res_highlight: document.getElementById("res_highlight").value,
-          tables: {
-            projects: getTableData("projectsBody"),
-            programs: getTableData("programsBody"),
-            ipr: getTableData("iprBody"),
-            tech_com: getTableData("techComBody"),
-            publications: getTableData("pubBody"),
-            training: getTableData("trainBody"),
-          },
-        };
-        return data;
-      }
-
-      /*------------------------------------------------------
-        RESTORE FROM DRAFT
-      ------------------------------------------------------*/
-      function restoreDraft(data) {
-        // BASIC FIELDS
+      // Restore draft (populates fields, tables, images)
+      async function restoreDraft(data) {
+        if (!data) return;
+        // basic fields
+        document.getElementById("smd_name").value =
+          data.smd_name || "CROP SCIENCE";
         document.getElementById("institute_name").value =
-          data.institute_name || "";
+          data.institute_name || "IIAB";
         document.getElementById("scientist_name").value =
           data.scientist_name || "";
         document.getElementById("month").value = data.month || "";
@@ -680,666 +1048,297 @@
           data.num_cit_res_gate || "";
         document.getElementById("res_highlight").value =
           data.res_highlight || "";
-
-        // Restore word count
-        const text = data.res_highlight || "";
-        document.getElementById("wordCount").textContent = text
-          ? text.split(/\s+/).length
+        document.getElementById("wordCount").textContent = data.res_highlight
+          ? data.res_highlight.trim().split(/\s+/).length
           : 0;
 
-        // TABLES — clear first
+        // restore tables: first clear existing
         document.getElementById("projectsBody").innerHTML = "";
         document.getElementById("programsBody").innerHTML = "";
         document.getElementById("iprBody").innerHTML = "";
         document.getElementById("techComBody").innerHTML = "";
         document.getElementById("pubBody").innerHTML = "";
         document.getElementById("trainBody").innerHTML = "";
+        projectCounter =
+          programCounter =
+          iprCounter =
+          techComCounter =
+          pubCounter =
+          trainCounter =
+            0;
 
-        // Reset counters
-        projectCounter = 0;
-        programCounter = 0;
-        iprCounter = 0;
-        techComCounter = 0;
-        pubCounter = 0;
-        trainCounter = 0;
+        // restore rows from saved table data
+        restoreTableRows(
+          data.tables.projects || [],
+          addProjectRow,
+          "projectsBody"
+        );
+        restoreTableRows(
+          data.tables.programs || [],
+          addProgramRow,
+          "programsBody"
+        );
+        restoreTableRows(data.tables.ipr || [], addIPRRow, "iprBody");
+        restoreTableRows(
+          data.tables.tech_com || [],
+          addTechComRow,
+          "techComBody"
+        );
+        restoreTableRows(data.tables.publications || [], addPubRow, "pubBody");
+        restoreTableRows(data.tables.training || [], addTrainRow, "trainBody");
 
-        // RESTORE TABLES
-        restoreTableRows(data.tables.projects, addProjectRow, "projectsBody");
-        restoreTableRows(data.tables.programs, addProgramRow, "programsBody");
-        restoreTableRows(data.tables.ipr, addIPRRow, "iprBody");
-        restoreTableRows(data.tables.tech_com, addTechComRow, "techComBody");
-        restoreTableRows(data.tables.publications, addPubRow, "pubBody");
-        restoreTableRows(data.tables.training, addTrainRow, "trainBody");
-
-        alert("✔ Draft loaded successfully!");
+        // restore images: data.images is array of {name,type,data}
+        if (Array.isArray(data.images) && data.images.length) {
+          selectedFiles = [];
+          const dt = new DataTransfer();
+          for (const img of data.images) {
+            try {
+              const file = base64ToFile(img.data, img.name, img.type);
+              selectedFiles.push(file);
+              dt.items.add(file);
+            } catch (err) {
+              console.warn("Image restore failed for", img.name, err);
+            }
+          }
+          // set file input files
+          fileInput.files = dt.files;
+          displayImagePreviews(selectedFiles);
+        } else {
+          selectedFiles = [];
+          fileInput.value = "";
+          previewGrid.innerHTML = "";
+          previewContainer.style.display = "none";
+        }
       }
 
-      /*------------------------------------------------------
-        HELPERS FOR TABLE RESTORATION
-      ------------------------------------------------------*/
+      // helper to restore rows
       function restoreTableRows(rows, addFn, tbodyId) {
         rows.forEach((rowData) => {
-          addFn();
+          addFn(); // adds a blank row and increments counter
           const tbody = document.getElementById(tbodyId);
           const lastRow = tbody.lastElementChild;
-          const cells = lastRow.querySelectorAll("input, select, textarea");
-
-          let i = 0;
+          const inputs = lastRow.querySelectorAll("input, select, textarea");
+          // rowData is an object with keys col_1, col_2 etc. We'll fill sequentially.
+          let i = 1;
           for (const key in rowData) {
-            if (rowData[key] !== "") {
-              if (cells[i]) cells[i].value = rowData[key];
+            if (key.startsWith("col_")) {
+              const val = rowData[key] || "";
+              const target = inputs[i - 1]; // inputs array corresponds to columns starting at index 0 for col_1
+              if (target) target.value = val;
+              i++;
             }
-            i++;
           }
         });
       }
 
-      // Image preview functionality
-      let selectedFiles = [];
-
-      document
-        .getElementById("res_highlight_fig")
-        .addEventListener("change", function (e) {
-          const files = Array.from(e.target.files);
-          selectedFiles = files;
-          displayImagePreviews(files);
+      function base64ToFile(base64, filename, mimeType) {
+        const byteString = atob(base64);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++)
+          ia[i] = byteString.charCodeAt(i);
+        const blob = new Blob([ab], {
+          type: mimeType || "application/octet-stream",
         });
-
-      function displayImagePreviews(files) {
-        const container = document.getElementById("imagePreviewContainer");
-        const grid = document.getElementById("imagePreviewGrid");
-
-        if (files.length === 0) {
-          container.style.display = "none";
-          return;
-        }
-
-        container.style.display = "block";
-        grid.innerHTML = "";
-
-        files.forEach((file, index) => {
-          const reader = new FileReader();
-
-          reader.onload = function (e) {
-            const previewItem = document.createElement("div");
-            previewItem.className = "image-preview-item";
-            previewItem.innerHTML = `
-                <button type="button" class="remove-image" onclick="removeImage(${index})" title="Remove image">×</button>
-                <img src="${e.target.result}" alt="${file.name}">
-                <div class="image-name">${file.name}</div>
-            `;
-            grid.appendChild(previewItem);
-          };
-
-          reader.readAsDataURL(file);
+        return new File([blob], filename || "file_" + Date.now(), {
+          type: mimeType || "application/octet-stream",
         });
       }
 
-      function removeImage(index) {
-        selectedFiles.splice(index, 1);
-
-        // Update the file input
-        const dt = new DataTransfer();
-        selectedFiles.forEach((file) => dt.items.add(file));
-        document.getElementById("res_highlight_fig").files = dt.files;
-
-        displayImagePreviews(selectedFiles);
-      }
-
-      // Calculate duration in months
-      function calculateMonthsDuration(startDate, endDate) {
-        if (!startDate || !endDate) return "";
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const months =
-          (end.getFullYear() - start.getFullYear()) * 12 +
-          (end.getMonth() - start.getMonth());
-        return months + (months === 1 ? " month" : " months");
-      }
-
-      // Calculate duration in years, months, days
-      function calculateFullDuration(startDate, endDate) {
-        if (!startDate || !endDate) return "";
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-
-        let years = end.getFullYear() - start.getFullYear();
-        let months = end.getMonth() - start.getMonth();
-        let days = end.getDate() - start.getDate();
-
-        if (days < 0) {
-          months--;
-          days += new Date(end.getFullYear(), end.getMonth(), 0).getDate();
-        }
-        if (months < 0) {
-          years--;
-          months += 12;
-        }
-
-        const parts = [];
-        if (years > 0) parts.push(years + (years === 1 ? " year" : " years"));
-        if (months > 0)
-          parts.push(months + (months === 1 ? " month" : " months"));
-        if (days > 0) parts.push(days + (days === 1 ? " day" : " days"));
-
-        return parts.join(", ") || "0 days";
-      }
-
-      // Add Project Row
-      let projectCounter = 0;
-      function addProjectRow() {
-        projectCounter++;
-        const tbody = document.getElementById("projectsBody");
-        const row = tbody.insertRow();
-        row.innerHTML = `
-                <td>${projectCounter}</td>
-                <td><input type="text" class="auto-cap" placeholder="Title or NA" onchange="checkProjectNA(this)"></td>
-                <td>
-                    <select onchange="handleAgencySelect(this)">
-                        <option value="">Select Agency</option>
-                        <option value="RKVY">RKVY</option>
-                        <option value="DST">DST</option>
-                        <option value="DBT">DBT</option>
-                        <option value="ANRF">ANRF</option>
-                        <option value="SERB">SERB</option>
-                        <option value="OTHER">OTHER</option>
-                    </select>
-                    <input type="text" class="auto-cap hidden" placeholder="Specify agency">
-                </td>
-                <td><input type="date" onchange="updateProjectDuration(this)"></td>
-                <td><input type="date" onchange="updateProjectDuration(this)"></td>
-                <td><input type="text" readonly placeholder="Auto-calculated"></td>
-                <td><input type="number" placeholder="Budget"></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
-            `;
-      }
-
-      function handleAgencySelect(select) {
-        const textInput = select.nextElementSibling;
-        if (select.value === "OTHER") {
-          textInput.classList.remove("hidden");
-          textInput.required = true;
-        } else {
-          textInput.classList.add("hidden");
-          textInput.required = false;
-          textInput.value = "";
-        }
-      }
-
-      function checkProjectNA(input) {
-        // Check for NA without capitalizing during typing
-        const row = input.closest("tr");
-        const inputs = row.querySelectorAll("input, select");
-        if (input.value.toUpperCase() === "NA") {
-          inputs.forEach((el, idx) => {
-            if (idx > 1) el.disabled = true;
-          });
-        } else {
-          inputs.forEach((el) => (el.disabled = false));
-        }
-      }
-
-      function updateProjectDuration(input) {
-        const row = input.closest("tr");
-        const startDate = row.cells[3].querySelector("input").value;
-        const endDate = row.cells[4].querySelector("input").value;
-        const durationInput = row.cells[5].querySelector("input");
-        durationInput.value = calculateMonthsDuration(startDate, endDate);
-      }
-
-      // Add Program Row
-      let programCounter = 0;
-      function addProgramRow() {
-        programCounter++;
-        const tbody = document.getElementById("programsBody");
-        const row = tbody.insertRow();
-        row.innerHTML = `
-                <td>${programCounter}</td>
-                <td>
-                    <select onchange="handleProgramSelect(this)">
-                        <option value="">Select Type</option>
-                        <option value="AICRP AGM">AICRP AGM</option>
-                        <option value="AINP AGM">AINP AGM</option>
-                        <option value="Conference">Conference</option>
-                        <option value="Symposium">Symposium</option>
-                        <option value="OTHER">OTHER</option>
-                    </select>
-                    <input type="text" class="auto-cap hidden" placeholder="Specify type">
-                </td>
-                <td><input type="date" onchange="updateProgramDuration(this)"></td>
-                <td><input type="date" onchange="updateProgramDuration(this)"></td>
-                <td><input type="text" readonly placeholder="Auto-calculated"></td>
-                <td><input type="text" class="auto-cap" placeholder="Venue"></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
-            `;
-      }
-
-      function handleProgramSelect(select) {
-        const textInput = select.nextElementSibling;
-        if (select.value === "OTHER") {
-          textInput.classList.remove("hidden");
-          textInput.required = true;
-        } else {
-          textInput.classList.add("hidden");
-          textInput.required = false;
-          textInput.value = "";
-        }
-      }
-
-      function updateProgramDuration(input) {
-        const row = input.closest("tr");
-        const startDate = row.cells[2].querySelector("input").value;
-        const endDate = row.cells[3].querySelector("input").value;
-        const durationInput = row.cells[4].querySelector("input");
-        durationInput.value = calculateFullDuration(startDate, endDate);
-      }
-
-      // Add IPR Row
-      let iprCounter = 0;
-      function addIPRRow() {
-        iprCounter++;
-        const tbody = document.getElementById("iprBody");
-        const row = tbody.insertRow();
-        row.innerHTML = `
-                <td>${iprCounter}</td>
-                <td>
-                    <select>
-                        <option value="">Select Type</option>
-                        <option value="Patent">Patent</option>
-                        <option value="Copyright">Copyright</option>
-                        <option value="Trademark">Trademark</option>
-                        <option value="Design">Design</option>
-                        <option value="GI">GI</option>
-                    </select>
-                </td>
-                <td><input type="date"></td>
-                <td><input type="text" class="auto-cap" placeholder="Registration No."></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
-            `;
-      }
-
-      // Add Tech Commercialization Row
-      let techComCounter = 0;
-      function addTechComRow() {
-        techComCounter++;
-        const tbody = document.getElementById("techComBody");
-        const row = tbody.insertRow();
-        row.innerHTML = `
-                <td>${techComCounter}</td>
-                <td>
-                    <select>
-                        <option value="">Select Head</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Varieties">Varieties</option>
-                        <option value="MoA Signed">MoA Signed</option>
-                    </select>
-                </td>
-                <td><input type="text" class="auto-cap" placeholder="Name"></td>
-                <td><input type="text" class="auto-cap" placeholder="Licensee"></td>
-                <td><input type="date"></td>
-                <td><input type="number" placeholder="License Fee"></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
-            `;
-      }
-
-      // Add Publication Row
-      let pubCounter = 0;
-      function addPubRow() {
-        pubCounter++;
-        const tbody = document.getElementById("pubBody");
-        const row = tbody.insertRow();
-        row.innerHTML = `
-                <td>${pubCounter}</td>
-                <td><textarea rows="2" placeholder="APA reference"></textarea></td>
-                <td><input type="text" placeholder="IF or NA" onchange="updateNAAS(this)"></td>
-                <td><input type="text" placeholder="NAAS Rating"></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
-            `;
-      }
-
-      function updateNAAS(input) {
-        const row = input.closest("tr");
-        const naasInput = row.cells[3].querySelector("input");
-        const ifValue = input.value.trim().toUpperCase();
-
-        if (ifValue !== "NA" && ifValue !== "" && !isNaN(parseFloat(ifValue))) {
-          const calculatedNAAS = parseFloat(ifValue) + 6;
-          naasInput.value = calculatedNAAS.toFixed(2);
-        } else if (ifValue === "NA") {
-          naasInput.value = "";
-          naasInput.readOnly = false;
-        }
-      }
-
-      // Add Training Row
-      let trainCounter = 0;
-      function addTrainRow() {
-        trainCounter++;
-        const tbody = document.getElementById("trainBody");
-        const row = tbody.insertRow();
-        row.innerHTML = `
-                <td>${trainCounter}</td>
-                <td><input type="text" class="auto-cap" placeholder="Training name"></td>
-                <td>
-                    <select onchange="handleSponsorSelect(this)">
-                        <option value="">Select Sponsor</option>
-                        <option value="ICAR">ICAR</option>
-                        <option value="RKVY">RKVY</option>
-                        <option value="DST">DST</option>
-                        <option value="DBT">DBT</option>
-                        <option value="ANRF">ANRF</option>
-                        <option value="SERB">SERB</option>
-                        <option value="OTHER">OTHER</option>
-                    </select>
-                    <input type="text" class="auto-cap hidden" placeholder="Specify sponsor">
-                </td>
-                <td><input type="date" onchange="updateTrainDuration(this)"></td>
-                <td><input type="date" onchange="updateTrainDuration(this)"></td>
-                <td><input type="text" readonly placeholder="Auto-calculated"></td>
-                <td><input type="number" placeholder="No. of participants"></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
-            `;
-      }
-
-      function handleSponsorSelect(select) {
-        const textInput = select.nextElementSibling;
-        if (select.value === "OTHER") {
-          textInput.classList.remove("hidden");
-          textInput.required = true;
-        } else {
-          textInput.classList.add("hidden");
-          textInput.required = false;
-          textInput.value = "";
-        }
-      }
-
-      function updateTrainDuration(input) {
-        const row = input.closest("tr");
-        const startDate = row.cells[3].querySelector("input").value;
-        const endDate = row.cells[4].querySelector("input").value;
-        const durationInput = row.cells[5].querySelector("input");
-        durationInput.value = calculateFullDuration(startDate, endDate);
-      }
-
-      // Delete row function
-      function deleteRow(btn) {
-        const row = btn.closest("tr");
-        row.remove();
-      }
-
-      // Apply auto-capitalize to new rows
-      function applyAutoCapitalize(row) {
-        row.querySelectorAll(".auto-cap").forEach((input) => {
-          autoCapitalize(input);
+      /* -------------------------
+         Helper: get table data (only rows with values)
+         same logic as earlier but returns col_# mapping
+         ------------------------- */
+      function getTableData(tbodyId) {
+        const tbody = document.getElementById(tbodyId);
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        const data = [];
+        rows.forEach((row) => {
+          const rowData = {};
+          const cells = row.cells;
+          let hasData = false;
+          // iterate cells 1..n-2 (skip S.No and Action)
+          for (let i = 1; i < cells.length - 1; i++) {
+            const inputs = cells[i].querySelectorAll("input, select, textarea");
+            if (inputs.length === 1) {
+              const v = inputs[0].value || "";
+              rowData[`col_${i}`] = v;
+              if (v.trim() !== "") hasData = true;
+            } else if (inputs.length > 1) {
+              const sel = cells[i].querySelector("select");
+              const txt = cells[i].querySelector('input[type="text"]');
+              if (txt && !txt.classList.contains("hidden")) {
+                const v = txt.value || "";
+                rowData[`col_${i}`] = v;
+                if (v.trim() !== "") hasData = true;
+              } else if (sel && sel.value) {
+                rowData[`col_${i}`] = sel.value;
+                hasData = true;
+              } else rowData[`col_${i}`] = "";
+            } else {
+              rowData[`col_${i}`] = "";
+            }
+          }
+          if (hasData) {
+            rowData["col_0"] = cells[0].textContent;
+            data.push(rowData);
+          }
         });
+        return data;
       }
 
-      // Form submission - COMPLETE FIXED VERSION
+      /* -------------------------
+         SUBMISSION (to server / Google Apps Script)
+         For demo: uses your existing SCRIPT_URL — keep as-is or replace.
+         ------------------------- */
       document
         .getElementById("scientistForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
-
-          const alertBox = document.getElementById("alertBox");
-          const submitButton = document.querySelector('button[type="submit"]');
-
-          // Validate word count
+          // Submit button element
+          const submitBtn = document.getElementById("submitBtn");
+          // Basic validation: scientist name
+          if (!document.getElementById("scientist_name").value.trim()) {
+            showAlert("Please enter scientist name", "error");
+            return;
+          }
+          // wordcount check - user previously required 300-500 words; keep flexible here (but warn)
           const text = document.getElementById("res_highlight").value.trim();
-          const wordCount = text ? text.split(/\s+/).length : 0;
-          if (wordCount < 1 || wordCount > 500) {
+          const wc = text ? text.split(/\s+/).length : 0;
+          if (wc < 1 || wc > 500) {
             showAlert(
               "Research highlight must be between 300-500 words. Current: " +
-                wordCount +
+                wc +
                 " words.",
               "error"
             );
             return;
           }
 
-          // // Check if images are selected
-          // if (selectedFiles.length === 0) {
-          //   showAlert(
-          //     "Please upload at least one image for research findings.",
-          //     "error"
-          //   );
-          //   return;
-          // }
-
-          // Disable submit button
-          submitButton.disabled = true;
-          submitButton.textContent = "⏳ Uploading... Please wait";
-          submitButton.style.cursor = "not-allowed";
+          submitBtn.disabled = true;
+          submitBtn.textContent = "⏳ Uploading... Please wait";
 
           try {
-            // Convert images to base64
-            const imagePromises = selectedFiles.map((file) => {
-              return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () =>
-                  resolve({
-                    name: file.name,
-                    mimeType: file.type,
-                    data: reader.result.split(",")[1],
-                  });
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-              });
-            });
+            // convert selectedFiles to base64 objs for sending
+            const images = await Promise.all(
+              (selectedFiles || []).map((f) => fileToBase64Obj(f))
+            );
 
-            const images = await Promise.all(imagePromises);
-
-            // Collect form data and capitalize during save
-            const formData = {
+            // build final payload
+            const payload = {
+              smd_name: document.getElementById("smd_name").value || "",
               institute_name_short:
                 "ICAR-" +
-                document.getElementById("institute_name").value.toUpperCase(),
-              scientist_name: document
-                .getElementById("scientist_name")
-                .value.toUpperCase(),
-              month: document.getElementById("month").value,
-              year: document.getElementById("year").value,
-              h_ind_google: document.getElementById("h_ind_google").value,
-              h_ind_res_gate: document.getElementById("h_ind_res_gate").value,
-              num_cit_google: document.getElementById("num_cit_google").value,
+                (
+                  document.getElementById("institute_name").value || ""
+                ).toUpperCase(),
+              scientist_name: (
+                document.getElementById("scientist_name").value || ""
+              ).toUpperCase(),
+              month: document.getElementById("month").value || "",
+              year: document.getElementById("year").value || "",
+              h_ind_google: document.getElementById("h_ind_google").value || "",
+              h_ind_res_gate:
+                document.getElementById("h_ind_res_gate").value || "",
+              num_cit_google:
+                document.getElementById("num_cit_google").value || "",
               num_cit_res_gate:
-                document.getElementById("num_cit_res_gate").value,
-              projects: capitalizeTableData(getTableData("projectsBody")),
-              programs: capitalizeTableData(getTableData("programsBody")),
-              ipr: capitalizeTableData(getTableData("iprBody")),
-              tech_com: capitalizeTableData(getTableData("techComBody")),
-              publications: getTableData("pubBody"), // Don't capitalize publications (APA format)
-              training: capitalizeTableData(getTableData("trainBody")),
-              res_highlight: document
-                .getElementById("res_highlight")
-                .value.toUpperCase(),
+                document.getElementById("num_cit_res_gate").value || "",
+              projects: getTableData("projectsBody"),
+              programs: getTableData("programsBody"),
+              ipr: getTableData("iprBody"),
+              tech_com: getTableData("techComBody"),
+              publications: getTableData("pubBody"),
+              training: getTableData("trainBody"),
+              res_highlight: (
+                document.getElementById("res_highlight").value || ""
+              ).toUpperCase(),
               images: images,
               submission_timestamp: new Date().toISOString(),
             };
 
-            // Capitalize table data before sending
-            function capitalizeTableData(tableData) {
-              return tableData.map((row) => {
-                const capitalizedRow = {};
-                for (const key in row) {
-                  if (typeof row[key] === "string") {
-                    capitalizedRow[key] = row[key].toUpperCase();
-                  } else {
-                    capitalizedRow[key] = row[key];
-                  }
-                }
-                return capitalizedRow;
-              });
-            }
+            console.log("Payload ready:", payload);
 
-            console.log("Sending data to Google Sheets...");
-            console.log("Form Data:", formData);
-
-            // IMPORTANT: Replace YOUR_GOOGLE_SCRIPT_URL with your actual Web App URL
+            // Replace with your own Apps Script URL
             const SCRIPT_URL =
               "https://script.google.com/macros/s/AKfycbyPqAvRvaIySBl_7drMn18LSgZroehaKt5F8c1dd34Zxov3BIE5x__06rgdrFdZS4rYfQ/exec";
 
-            // Send to Google Sheets
-            const response = await fetch(SCRIPT_URL, {
+            // send (no-cors recommended if Apps Script deployed without CORS)
+            await fetch(SCRIPT_URL, {
               method: "POST",
               mode: "no-cors",
-              cache: "no-cache",
-              headers: {
-                "Content-Type": "text/plain",
-              },
-              redirect: "follow",
-              body: JSON.stringify(formData),
+              headers: { "Content-Type": "text/plain" },
+              body: JSON.stringify(payload),
             });
 
-            // With no-cors mode, we can't read the response
-            // But if we reach here without error, the request was sent
-            console.log("Request sent successfully!");
-
             showAlert("Data submitted successfully!", "success");
-
-            // Reset form after 2 seconds
-            setTimeout(() => {
-              resetForm();
-            }, 2000);
-          } catch (error) {
-            console.error("Submission Error:", error);
-            showAlert(
-              "❌ Error: " +
-                error.message +
-                ". Please check console and try again.",
-              "error"
-            );
+            // clear draft and reset form
+            localStorage.removeItem(DRAFT_KEY);
+            setTimeout(() => resetForm(true), 1200);
+          } catch (err) {
+            console.error("Submit error:", err);
+            showAlert("❌ Submission error: " + (err.message || err), "error");
           } finally {
-            // Re-enable submit button after 3 seconds
-            setTimeout(() => {
-              submitButton.disabled = false;
-              submitButton.textContent = "Submit";
-              submitButton.style.cursor = "pointer";
-            }, 3000);
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit";
           }
         });
 
-      // Reset form function
-      function resetForm() {
-        // Clearing the draft
-        localStorage.removeItem("scientist_draft");
-
-        // Reset the form
+      /* -------------------------
+         Form reset (clear UI). keep option to reinit tables.
+         If clearDraftReset = true, also clear localStorage.
+         ------------------------- */
+      function resetForm(clearDraftReset = false) {
+        if (clearDraftReset) localStorage.removeItem(DRAFT_KEY);
         document.getElementById("scientistForm").reset();
-
-        // Clear all table bodies
+        // reset counters and tables
         document.getElementById("projectsBody").innerHTML = "";
         document.getElementById("programsBody").innerHTML = "";
         document.getElementById("iprBody").innerHTML = "";
         document.getElementById("techComBody").innerHTML = "";
         document.getElementById("pubBody").innerHTML = "";
         document.getElementById("trainBody").innerHTML = "";
-
-        // Reset counters
-        projectCounter = 0;
-        programCounter = 0;
-        iprCounter = 0;
-        techComCounter = 0;
-        pubCounter = 0;
-        trainCounter = 0;
-
-        // Reset image preview
+        projectCounter =
+          programCounter =
+          iprCounter =
+          techComCounter =
+          pubCounter =
+          trainCounter =
+            0;
         selectedFiles = [];
-        document.getElementById("imagePreviewContainer").style.display = "none";
-        document.getElementById("imagePreviewGrid").innerHTML = "";
-
-        // Reset word count
+        fileInput.value = "";
+        previewGrid.innerHTML = "";
+        previewContainer.style.display = "none";
         document.getElementById("wordCount").textContent = "0";
-
-        // Re-initialize tables with one row each
-        addProjectRow();
-        addProgramRow();
-        addIPRRow();
-        addTechComRow();
-        addPubRow();
-        addTrainRow();
-
-        // Scroll to top
+        initializeTables();
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      // Get table data - Only include rows with actual data
-      function getTableData(tbodyId) {
-        const tbody = document.getElementById(tbodyId);
-        const rows = tbody.querySelectorAll("tr");
-        const data = [];
-
-        rows.forEach((row) => {
-          const rowData = {};
-          const cells = row.cells;
-
-          // Check if row has any data (skip if all inputs are empty)
-          let hasData = false;
-
-          for (let i = 1; i < cells.length - 1; i++) {
-            // Skip S.No. (0) and Action column (last)
-            const inputs = cells[i].querySelectorAll("input, select, textarea");
-
-            if (inputs.length === 1) {
-              if (inputs[0].value && inputs[0].value.trim() !== "") {
-                hasData = true;
-                rowData[`col_${i}`] = inputs[0].value;
-              } else {
-                rowData[`col_${i}`] = "";
-              }
-            } else if (inputs.length > 1) {
-              // Handle cases with multiple inputs (like select + text)
-              const select = cells[i].querySelector("select");
-              const text = cells[i].querySelector('input[type="text"]');
-
-              if (select && text && !text.classList.contains("hidden")) {
-                if (text.value && text.value.trim() !== "") {
-                  hasData = true;
-                  rowData[`col_${i}`] = text.value;
-                } else {
-                  rowData[`col_${i}`] = "";
-                }
-              } else if (select && select.value) {
-                hasData = true;
-                rowData[`col_${i}`] = select.value;
-              } else {
-                rowData[`col_${i}`] = "";
-              }
-            }
-          }
-
-          // Only add row if it has actual data
-          if (hasData) {
-            // Add serial number only if row has data
-            rowData["col_0"] = cells[0].textContent;
-            data.push(rowData);
-          }
-        });
-
-        return data;
+      // initialize tables with single blank row each (if empty)
+      function initializeTables() {
+        if (
+          !document.getElementById("projectsBody").querySelectorAll("tr").length
+        )
+          addProjectRow();
+        if (
+          !document.getElementById("programsBody").querySelectorAll("tr").length
+        )
+          addProgramRow();
+        if (!document.getElementById("iprBody").querySelectorAll("tr").length)
+          addIPRRow();
+        if (
+          !document.getElementById("techComBody").querySelectorAll("tr").length
+        )
+          addTechComRow();
+        if (!document.getElementById("pubBody").querySelectorAll("tr").length)
+          addPubRow();
+        if (!document.getElementById("trainBody").querySelectorAll("tr").length)
+          addTrainRow();
       }
 
-      // Show alert message
-      function showAlert(message, type) {
-        const alertBox = document.getElementById("alertBox");
-        alertBox.textContent = message;
-        alertBox.className = "alert alert-" + type;
-        alertBox.style.display = "block";
-
-        setTimeout(() => {
-          alertBox.style.display = "none";
-        }, 5000);
-
-        // Scroll to top to show alert
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-
-      // Initialize with one row for each table
-      addProjectRow();
-      addProgramRow();
-      addIPRRow();
-      addTechComRow();
-      addPubRow();
-      addTrainRow();
+      // ensure tables initialized immediately
+      // (some init also occurs on window.load earlier)
+      initializeTables();
     </script>
   </body>
 </html>
