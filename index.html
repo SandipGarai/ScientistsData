@@ -553,6 +553,14 @@
             ></div>
           </div>
         </div>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          id="saveDraftBtn"
+          style="font-size: 1.1em; padding: 12px 30px; margin-bottom: 15px"
+        >
+          Save Draft
+        </button>
 
         <!-- Submit Button -->
         <div class="submit-section">
@@ -607,6 +615,124 @@
           document.getElementById("wordCount").textContent = words;
           // NO auto-capitalize here - only during save
         });
+      /*------------------------------------------------------
+        SAVE DRAFT TO LOCAL STORAGE
+      ------------------------------------------------------*/
+      document.getElementById("saveDraftBtn").addEventListener("click", () => {
+        const data = collectDraftData();
+        localStorage.setItem("scientist_draft", JSON.stringify(data));
+        alert("✔ Draft saved successfully! You can continue later.");
+      });
+
+      /*------------------------------------------------------
+        AUTO-LOAD DRAFT IF EXISTS
+      ------------------------------------------------------*/
+      window.addEventListener("load", () => {
+        const draft = localStorage.getItem("scientist_draft");
+        if (draft) {
+          restoreDraft(JSON.parse(draft));
+        }
+      });
+
+      /*------------------------------------------------------
+        COLLECT ONLY USER INPUT (No processing)
+      ------------------------------------------------------*/
+      function collectDraftData() {
+        const data = {
+          institute_name: document.getElementById("institute_name").value,
+          scientist_name: document.getElementById("scientist_name").value,
+          month: document.getElementById("month").value,
+          year: document.getElementById("year").value,
+          h_ind_google: document.getElementById("h_ind_google").value,
+          h_ind_res_gate: document.getElementById("h_ind_res_gate").value,
+          num_cit_google: document.getElementById("num_cit_google").value,
+          num_cit_res_gate: document.getElementById("num_cit_res_gate").value,
+          res_highlight: document.getElementById("res_highlight").value,
+          tables: {
+            projects: getTableData("projectsBody"),
+            programs: getTableData("programsBody"),
+            ipr: getTableData("iprBody"),
+            tech_com: getTableData("techComBody"),
+            publications: getTableData("pubBody"),
+            training: getTableData("trainBody"),
+          },
+        };
+        return data;
+      }
+
+      /*------------------------------------------------------
+        RESTORE FROM DRAFT
+      ------------------------------------------------------*/
+      function restoreDraft(data) {
+        // BASIC FIELDS
+        document.getElementById("institute_name").value =
+          data.institute_name || "";
+        document.getElementById("scientist_name").value =
+          data.scientist_name || "";
+        document.getElementById("month").value = data.month || "";
+        document.getElementById("year").value = data.year || "";
+        document.getElementById("h_ind_google").value = data.h_ind_google || "";
+        document.getElementById("h_ind_res_gate").value =
+          data.h_ind_res_gate || "";
+        document.getElementById("num_cit_google").value =
+          data.num_cit_google || "";
+        document.getElementById("num_cit_res_gate").value =
+          data.num_cit_res_gate || "";
+        document.getElementById("res_highlight").value =
+          data.res_highlight || "";
+
+        // Restore word count
+        const text = data.res_highlight || "";
+        document.getElementById("wordCount").textContent = text
+          ? text.split(/\s+/).length
+          : 0;
+
+        // TABLES — clear first
+        document.getElementById("projectsBody").innerHTML = "";
+        document.getElementById("programsBody").innerHTML = "";
+        document.getElementById("iprBody").innerHTML = "";
+        document.getElementById("techComBody").innerHTML = "";
+        document.getElementById("pubBody").innerHTML = "";
+        document.getElementById("trainBody").innerHTML = "";
+
+        // Reset counters
+        projectCounter = 0;
+        programCounter = 0;
+        iprCounter = 0;
+        techComCounter = 0;
+        pubCounter = 0;
+        trainCounter = 0;
+
+        // RESTORE TABLES
+        restoreTableRows(data.tables.projects, addProjectRow, "projectsBody");
+        restoreTableRows(data.tables.programs, addProgramRow, "programsBody");
+        restoreTableRows(data.tables.ipr, addIPRRow, "iprBody");
+        restoreTableRows(data.tables.tech_com, addTechComRow, "techComBody");
+        restoreTableRows(data.tables.publications, addPubRow, "pubBody");
+        restoreTableRows(data.tables.training, addTrainRow, "trainBody");
+
+        alert("✔ Draft loaded successfully!");
+      }
+
+      /*------------------------------------------------------
+        HELPERS FOR TABLE RESTORATION
+      ------------------------------------------------------*/
+      function restoreTableRows(rows, addFn, tbodyId) {
+        rows.forEach((rowData) => {
+          addFn();
+          const tbody = document.getElementById(tbodyId);
+          const lastRow = tbody.lastElementChild;
+          const cells = lastRow.querySelectorAll("input, select, textarea");
+
+          let i = 0;
+          for (const key in rowData) {
+            if (rowData[key] !== "") {
+              if (cells[i]) cells[i].value = rowData[key];
+            }
+            i++;
+          }
+        });
+      }
 
       // Image preview functionality
       let selectedFiles = [];
@@ -1094,6 +1220,9 @@
 
       // Reset form function
       function resetForm() {
+        // Clearing the draft
+        localStorage.removeItem("scientist_draft");
+
         // Reset the form
         document.getElementById("scientistForm").reset();
 
