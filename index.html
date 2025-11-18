@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scientist Data Collection</title>
+    <title>Scientist Data Collection Form — Final</title>
     <style>
       /* -----------------------------
          Basic Reset & Layout
@@ -57,6 +57,52 @@
         margin-bottom: 12px;
         font-size: 1.1rem;
       }
+
+      /* COLLAPSIBLE SECTION STYLES */
+      .collapsible-section {
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 18px;
+        border-left: 4px solid #667eea;
+        overflow: hidden;
+      }
+      .collapsible-header {
+        padding: 16px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f8f9fa;
+        transition: background 0.3s;
+      }
+      .collapsible-header:hover {
+        background: #e9ecef;
+      }
+      .collapsible-header .section-title {
+        margin-bottom: 0;
+        flex: 1;
+      }
+      .toggle-icon {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #667eea;
+        transition: transform 0.3s;
+      }
+      .toggle-icon.expanded {
+        transform: rotate(45deg);
+      }
+      .collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+        padding: 0 16px;
+      }
+      .collapsible-content.expanded {
+        max-height: 2000px;
+        padding: 16px;
+        transition: max-height 0.5s ease-in;
+      }
+
       .form-group {
         margin-bottom: 12px;
       }
@@ -127,6 +173,7 @@
       .btn-secondary {
         background: #28a745;
         color: white;
+        margin-top: 10px;
       }
       .btn-danger {
         background: #dc3545;
@@ -266,7 +313,7 @@
           <h2 class="section-title">Basic Information</h2>
 
           <div class="form-group">
-            <label for="smd_name">SMD Name</label>
+            <label for="smd_name">SMD Name (changeable)</label>
             <input
               type="text"
               id="smd_name"
@@ -387,164 +434,202 @@
           </div>
         </div>
 
-        <!-- PROJECTS TABLE -->
-        <div class="section">
-          <h2 class="section-title">
-            Externally Funded Projects (&gt;50 Lakhs)
-          </h2>
-          <div class="table-container">
-            <table id="projectsTable" class="data-table">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>Project Title</th>
-                  <th>Funding Agency</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Duration</th>
-                  <th>Budget</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="projectsBody"></tbody>
-            </table>
+        <!-- COLLAPSIBLE: PROJECTS -->
+        <div class="collapsible-section" id="projectsSection">
+          <div class="collapsible-header" onclick="toggleSection('projects')">
+            <h2 class="section-title">
+              Externally Funded Projects (&gt;50 Lakhs)
+            </h2>
+            <span class="toggle-icon" id="projectsToggle">+</span>
           </div>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            onclick="addProjectRow()"
-          >
-            + Add Project
-          </button>
+          <div class="collapsible-content" id="projectsContent">
+            <div class="table-container">
+              <table id="projectsTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Project Title</th>
+                    <th>Funding Agency</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Duration</th>
+                    <th>Budget</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="projectsBody"></tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="addProjectRow()"
+            >
+              + Add Project
+            </button>
+          </div>
         </div>
 
-        <!-- PROGRAMS TABLE -->
-        <div class="section">
-          <h2 class="section-title">Programs Organized</h2>
-          <div class="table-container">
-            <table id="programsTable" class="data-table">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>Title</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Duration</th>
-                  <th>Venue</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="programsBody"></tbody>
-            </table>
+        <!-- COLLAPSIBLE: PROGRAMS -->
+        <div class="collapsible-section" id="programsSection">
+          <div class="collapsible-header" onclick="toggleSection('programs')">
+            <h2 class="section-title">Programs Organized</h2>
+            <span class="toggle-icon" id="programsToggle">+</span>
           </div>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            onclick="addProgramRow()"
-          >
-            + Add Program
-          </button>
+          <div class="collapsible-content" id="programsContent">
+            <div class="table-container">
+              <table id="programsTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Title</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Duration</th>
+                    <th>Venue</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="programsBody"></tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="addProgramRow()"
+            >
+              + Add Program
+            </button>
+          </div>
         </div>
 
-        <!-- IPR -->
-        <div class="section">
-          <h2 class="section-title">IPR Generated</h2>
-          <div class="table-container">
-            <table id="iprTable" class="data-table">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>IPR Name/Type</th>
-                  <th>Date of Grant</th>
-                  <th>Registration No.</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="iprBody"></tbody>
-            </table>
+        <!-- COLLAPSIBLE: IPR -->
+        <div class="collapsible-section" id="iprSection">
+          <div class="collapsible-header" onclick="toggleSection('ipr')">
+            <h2 class="section-title">IPR Generated</h2>
+            <span class="toggle-icon" id="iprToggle">+</span>
           </div>
-          <button type="button" class="btn btn-secondary" onclick="addIPRRow()">
-            + Add IPR
-          </button>
+          <div class="collapsible-content" id="iprContent">
+            <div class="table-container">
+              <table id="iprTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>IPR Name/Type</th>
+                    <th>Date of Grant</th>
+                    <th>Registration No.</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="iprBody"></tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="addIPRRow()"
+            >
+              + Add IPR
+            </button>
+          </div>
         </div>
 
-        <!-- TECH COMMERCIALIZATION -->
-        <div class="section">
-          <h2 class="section-title">Technology Commercialization</h2>
-          <div class="table-container">
-            <table id="techComTable" class="data-table">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>Head</th>
-                  <th>Name</th>
-                  <th>Licensee</th>
-                  <th>Date</th>
-                  <th>License Fee</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="techComBody"></tbody>
-            </table>
+        <!-- COLLAPSIBLE: TECH COMMERCIALIZATION -->
+        <div class="collapsible-section" id="techComSection">
+          <div class="collapsible-header" onclick="toggleSection('techCom')">
+            <h2 class="section-title">Technology Commercialization</h2>
+            <span class="toggle-icon" id="techComToggle">+</span>
           </div>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            onclick="addTechComRow()"
-          >
-            + Add Entry
-          </button>
+          <div class="collapsible-content" id="techComContent">
+            <div class="table-container">
+              <table id="techComTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Head</th>
+                    <th>Name</th>
+                    <th>Licensee</th>
+                    <th>Date</th>
+                    <th>License Fee</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="techComBody"></tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="addTechComRow()"
+            >
+              + Add Entry
+            </button>
+          </div>
         </div>
 
-        <!-- PUBLICATIONS -->
-        <div class="section">
-          <h2 class="section-title">Publications</h2>
-          <div class="table-container">
-            <table id="pubTable" class="data-table">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>Publication (APA Style)</th>
-                  <th>Impact Factor</th>
-                  <th>NAAS Rating</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="pubBody"></tbody>
-            </table>
+        <!-- COLLAPSIBLE: PUBLICATIONS -->
+        <div class="collapsible-section" id="pubSection">
+          <div class="collapsible-header" onclick="toggleSection('pub')">
+            <h2 class="section-title">Publications</h2>
+            <span class="toggle-icon" id="pubToggle">+</span>
           </div>
-          <button type="button" class="btn btn-secondary" onclick="addPubRow()">
-            + Add Publication
-          </button>
+          <div class="collapsible-content" id="pubContent">
+            <div class="table-container">
+              <table id="pubTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Publication (APA Style)</th>
+                    <th>Impact Factor</th>
+                    <th>NAAS Rating</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="pubBody"></tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="addPubRow()"
+            >
+              + Add Publication
+            </button>
+          </div>
         </div>
 
-        <!-- TRAINING -->
-        <div class="section">
-          <h2 class="section-title">Training Conducted</h2>
-          <div class="table-container">
-            <table id="trainTable" class="data-table">
-              <thead>
-                <tr>
-                  <th>S.No.</th>
-                  <th>Training Name</th>
-                  <th>Sponsor</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Duration</th>
-                  <th>Participants</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="trainBody"></tbody>
-            </table>
+        <!-- COLLAPSIBLE: TRAINING -->
+        <div class="collapsible-section" id="trainSection">
+          <div class="collapsible-header" onclick="toggleSection('train')">
+            <h2 class="section-title">Training Conducted</h2>
+            <span class="toggle-icon" id="trainToggle">+</span>
           </div>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            onclick="addTrainRow()"
-          >
-            + Add Training
-          </button>
+          <div class="collapsible-content" id="trainContent">
+            <div class="table-container">
+              <table id="trainTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Training Name</th>
+                    <th>Sponsor</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Duration</th>
+                    <th>Participants</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="trainBody"></tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="addTrainRow()"
+            >
+              + Add Training
+            </button>
+          </div>
         </div>
 
         <!-- RESEARCH HIGHLIGHTS -->
@@ -593,7 +678,8 @@
             </div>
           </div>
         </div>
-        <!-- FOOTER BAR: draft note + actions -->
+
+        <!-- FOOTER BAR -->
         <div class="footer-bar">
           <div class="draft-note">
             Drafts auto-load on open; click Save Draft to keep current inputs
@@ -615,6 +701,24 @@
     </div>
 
     <script>
+      /* -------------------------
+         TOGGLE COLLAPSIBLE SECTIONS
+         ----------------------------- */
+      function toggleSection(sectionName) {
+        const content = document.getElementById(sectionName + "Content");
+        const toggle = document.getElementById(sectionName + "Toggle");
+
+        if (content.classList.contains("expanded")) {
+          content.classList.remove("expanded");
+          toggle.classList.remove("expanded");
+          toggle.textContent = "+";
+        } else {
+          content.classList.add("expanded");
+          toggle.classList.add("expanded");
+          toggle.textContent = "+";
+        }
+      }
+
       /* -------------------------
          Initialization
          ------------------------- */
@@ -657,16 +761,15 @@
         });
 
       /* -------------------------
-         IMAGE HANDLING (preview & selectedFiles)
+         IMAGE HANDLING
          ------------------------- */
-      let selectedFiles = []; // array of File objects (live session)
+      let selectedFiles = [];
       const fileInput = document.getElementById("res_highlight_fig");
       const previewContainer = document.getElementById("imagePreviewContainer");
       const previewGrid = document.getElementById("imagePreviewGrid");
 
       fileInput.addEventListener("change", (e) => {
         const files = Array.from(e.target.files || []);
-        // replace selectedFiles with the input's files
         selectedFiles = files.slice();
         displayImagePreviews(selectedFiles);
       });
@@ -696,7 +799,6 @@
 
       function removeImage(index) {
         selectedFiles.splice(index, 1);
-        // update file input FileList using DataTransfer
         const dt = new DataTransfer();
         selectedFiles.forEach((f) => dt.items.add(f));
         fileInput.files = dt.files;
@@ -705,7 +807,6 @@
 
       /* -------------------------
          TABLE ROWS MANAGEMENT
-         Each addXRow creates new row; deleteRow removes it.
          ------------------------- */
       let projectCounter = 0,
         programCounter = 0,
@@ -829,7 +930,8 @@
           <td><input type="text" placeholder="Licensee"></td>
           <td><input type="date"></td>
           <td><input type="number" placeholder="License Fee"></td>
-          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
+          <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">
+            Delete</button></td>
         `;
       }
 
@@ -930,10 +1032,9 @@
         if (days > 0) parts.push(days + (days === 1 ? " day" : " days"));
         return parts.join(", ") || "0 days";
       }
+
       /* -------------------------
          DRAFT SAVE / RESTORE / CLEAR
-         - Images are saved in localStorage as base64 strings.
-         - On restore we recreate File objects and re-populate input.files using DataTransfer.
          ------------------------- */
       const DRAFT_KEY = "scientist_draft_v1";
 
@@ -946,7 +1047,7 @@
 
       async function saveDraft() {
         try {
-          const draft = await collectDraftData(); // images included as base64
+          const draft = await collectDraftData();
           localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
           showAlert(
             "✔ Draft saved successfully! You can continue later.",
@@ -961,11 +1062,10 @@
       function clearDraft() {
         if (!confirm("Clear saved draft from this browser?")) return;
         localStorage.removeItem(DRAFT_KEY);
-        resetForm(false); // keep tables reinitialized
+        resetForm(false);
         showAlert("✔ Draft cleared.", "success");
       }
 
-      // Collect draft data — including images as base64 (name, type, data)
       async function collectDraftData() {
         const tables = {
           projects: getTableData("projectsBody"),
@@ -976,7 +1076,6 @@
           training: getTableData("trainBody"),
         };
 
-        // convert selectedFiles to base64 array
         const images = await Promise.all(
           (selectedFiles || []).map((file) => fileToBase64Obj(file))
         );
@@ -1012,10 +1111,9 @@
         });
       }
 
-      // On load — try to restore draft
       window.addEventListener("load", async function () {
         const d = localStorage.getItem(DRAFT_KEY);
-        initializeTables(); // create one row default per table
+        initializeTables();
         if (d) {
           try {
             const parsed = JSON.parse(d);
@@ -1027,10 +1125,8 @@
         }
       });
 
-      // Restore draft (populates fields, tables, images)
       async function restoreDraft(data) {
         if (!data) return;
-        // basic fields
         document.getElementById("smd_name").value =
           data.smd_name || "CROP SCIENCE";
         document.getElementById("institute_name").value =
@@ -1052,7 +1148,6 @@
           ? data.res_highlight.trim().split(/\s+/).length
           : 0;
 
-        // restore tables: first clear existing
         document.getElementById("projectsBody").innerHTML = "";
         document.getElementById("programsBody").innerHTML = "";
         document.getElementById("iprBody").innerHTML = "";
@@ -1067,7 +1162,6 @@
           trainCounter =
             0;
 
-        // restore rows from saved table data
         restoreTableRows(
           data.tables.projects || [],
           addProjectRow,
@@ -1087,7 +1181,6 @@
         restoreTableRows(data.tables.publications || [], addPubRow, "pubBody");
         restoreTableRows(data.tables.training || [], addTrainRow, "trainBody");
 
-        // restore images: data.images is array of {name,type,data}
         if (Array.isArray(data.images) && data.images.length) {
           selectedFiles = [];
           const dt = new DataTransfer();
@@ -1100,7 +1193,6 @@
               console.warn("Image restore failed for", img.name, err);
             }
           }
-          // set file input files
           fileInput.files = dt.files;
           displayImagePreviews(selectedFiles);
         } else {
@@ -1111,19 +1203,17 @@
         }
       }
 
-      // helper to restore rows
       function restoreTableRows(rows, addFn, tbodyId) {
         rows.forEach((rowData) => {
-          addFn(); // adds a blank row and increments counter
+          addFn();
           const tbody = document.getElementById(tbodyId);
           const lastRow = tbody.lastElementChild;
           const inputs = lastRow.querySelectorAll("input, select, textarea");
-          // rowData is an object with keys col_1, col_2 etc. We'll fill sequentially.
           let i = 1;
           for (const key in rowData) {
             if (key.startsWith("col_")) {
               const val = rowData[key] || "";
-              const target = inputs[i - 1]; // inputs array corresponds to columns starting at index 0 for col_1
+              const target = inputs[i - 1];
               if (target) target.value = val;
               i++;
             }
@@ -1145,10 +1235,6 @@
         });
       }
 
-      /* -------------------------
-         Helper: get table data (only rows with values)
-         same logic as earlier but returns col_# mapping
-         ------------------------- */
       function getTableData(tbodyId) {
         const tbody = document.getElementById(tbodyId);
         const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -1157,7 +1243,6 @@
           const rowData = {};
           const cells = row.cells;
           let hasData = false;
-          // iterate cells 1..n-2 (skip S.No and Action)
           for (let i = 1; i < cells.length - 1; i++) {
             const inputs = cells[i].querySelectorAll("input, select, textarea");
             if (inputs.length === 1) {
@@ -1188,21 +1273,19 @@
       }
 
       /* -------------------------
-         SUBMISSION (to server / Google Apps Script)
-         For demo: uses your existing SCRIPT_URL — keep as-is or replace.
+         FORM SUBMISSION
          ------------------------- */
       document
         .getElementById("scientistForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
-          // Submit button element
           const submitBtn = document.getElementById("submitBtn");
-          // Basic validation: scientist name
+
           if (!document.getElementById("scientist_name").value.trim()) {
             showAlert("Please enter scientist name", "error");
             return;
           }
-          // wordcount check - user previously required 300-500 words; keep flexible here (but warn)
+
           const text = document.getElementById("res_highlight").value.trim();
           const wc = text ? text.split(/\s+/).length : 0;
           if (wc < 1 || wc > 500) {
@@ -1219,12 +1302,10 @@
           submitBtn.textContent = "⏳ Uploading... Please wait";
 
           try {
-            // convert selectedFiles to base64 objs for sending
             const images = await Promise.all(
               (selectedFiles || []).map((f) => fileToBase64Obj(f))
             );
 
-            // build final payload
             const payload = {
               smd_name: document.getElementById("smd_name").value || "",
               institute_name_short:
@@ -1244,12 +1325,12 @@
                 document.getElementById("num_cit_google").value || "",
               num_cit_res_gate:
                 document.getElementById("num_cit_res_gate").value || "",
-              projects: getTableData("projectsBody"),
-              programs: getTableData("programsBody"),
-              ipr: getTableData("iprBody"),
-              tech_com: getTableData("techComBody"),
+              projects: capitalizeTableData(getTableData("projectsBody")),
+              programs: capitalizeTableData(getTableData("programsBody")),
+              ipr: capitalizeTableData(getTableData("iprBody")),
+              tech_com: capitalizeTableData(getTableData("techComBody")),
               publications: getTableData("pubBody"),
-              training: getTableData("trainBody"),
+              training: capitalizeTableData(getTableData("trainBody")),
               res_highlight: (
                 document.getElementById("res_highlight").value || ""
               ).toUpperCase(),
@@ -1257,13 +1338,25 @@
               submission_timestamp: new Date().toISOString(),
             };
 
+            function capitalizeTableData(tableData) {
+              return tableData.map((row) => {
+                const capitalizedRow = {};
+                for (const key in row) {
+                  if (typeof row[key] === "string") {
+                    capitalizedRow[key] = row[key].toUpperCase();
+                  } else {
+                    capitalizedRow[key] = row[key];
+                  }
+                }
+                return capitalizedRow;
+              });
+            }
+
             console.log("Payload ready:", payload);
 
-            // Replace with your own Apps Script URL
             const SCRIPT_URL =
               "https://script.google.com/macros/s/AKfycbyPqAvRvaIySBl_7drMn18LSgZroehaKt5F8c1dd34Zxov3BIE5x__06rgdrFdZS4rYfQ/exec";
 
-            // send (no-cors recommended if Apps Script deployed without CORS)
             await fetch(SCRIPT_URL, {
               method: "POST",
               mode: "no-cors",
@@ -1272,7 +1365,6 @@
             });
 
             showAlert("Data submitted successfully!", "success");
-            // clear draft and reset form
             localStorage.removeItem(DRAFT_KEY);
             setTimeout(() => resetForm(true), 1200);
           } catch (err) {
@@ -1284,14 +1376,9 @@
           }
         });
 
-      /* -------------------------
-         Form reset (clear UI). keep option to reinit tables.
-         If clearDraftReset = true, also clear localStorage.
-         ------------------------- */
       function resetForm(clearDraftReset = false) {
         if (clearDraftReset) localStorage.removeItem(DRAFT_KEY);
         document.getElementById("scientistForm").reset();
-        // reset counters and tables
         document.getElementById("projectsBody").innerHTML = "";
         document.getElementById("programsBody").innerHTML = "";
         document.getElementById("iprBody").innerHTML = "";
@@ -1310,11 +1397,22 @@
         previewGrid.innerHTML = "";
         previewContainer.style.display = "none";
         document.getElementById("wordCount").textContent = "0";
+
+        // Close all collapsible sections
+        ["projects", "programs", "ipr", "techCom", "pub", "train"].forEach(
+          (name) => {
+            const content = document.getElementById(name + "Content");
+            const toggle = document.getElementById(name + "Toggle");
+            content.classList.remove("expanded");
+            toggle.classList.remove("expanded");
+            toggle.textContent = "+";
+          }
+        );
+
         initializeTables();
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      // initialize tables with single blank row each (if empty)
       function initializeTables() {
         if (
           !document.getElementById("projectsBody").querySelectorAll("tr").length
@@ -1336,8 +1434,6 @@
           addTrainRow();
       }
 
-      // ensure tables initialized immediately
-      // (some init also occurs on window.load earlier)
       initializeTables();
     </script>
   </body>
