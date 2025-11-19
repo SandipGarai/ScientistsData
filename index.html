@@ -850,7 +850,7 @@
       function checkProjectNA(input) {
         const row = input.closest("tr");
         const inputs = row.querySelectorAll("input, select");
-        if (input.value.trim().toUpperCase() === "NA") {
+        if (input.value.trim() === "NA") {
           inputs.forEach((el, i) => {
             if (i > 1) el.disabled = true;
           });
@@ -951,7 +951,7 @@
       function updateNAAS(inp) {
         const row = inp.closest("tr");
         const naas = row.cells[3].querySelector("input");
-        const v = inp.value.trim().toUpperCase();
+        const v = inp.value.trim();
         if (v !== "NA" && v !== "" && !isNaN(parseFloat(v))) {
           naas.value = (parseFloat(v) + 6).toFixed(2);
         } else if (v === "NA") {
@@ -1314,9 +1314,8 @@
                 (
                   document.getElementById("institute_name").value || ""
                 ).toUpperCase(),
-              scientist_name: (
-                document.getElementById("scientist_name").value || ""
-              ).toUpperCase(),
+              scientist_name:
+                document.getElementById("scientist_name").value || "",
               month: document.getElementById("month").value || "",
               year: document.getElementById("year").value || "",
               h_ind_google: document.getElementById("h_ind_google").value || "",
@@ -1332,9 +1331,8 @@
               tech_com: capitalizeTableData(getTableData("techComBody")),
               publications: getTableData("pubBody"),
               training: capitalizeTableData(getTableData("trainBody")),
-              res_highlight: (
-                document.getElementById("res_highlight").value || ""
-              ).toUpperCase(),
+              res_highlight:
+                document.getElementById("res_highlight").value || "",
               images: images,
               submission_timestamp: new Date().toISOString(),
             };
@@ -1344,7 +1342,7 @@
                 const capitalizedRow = {};
                 for (const key in row) {
                   if (typeof row[key] === "string") {
-                    capitalizedRow[key] = row[key].toUpperCase();
+                    capitalizedRow[key] = row[key];
                   } else {
                     capitalizedRow[key] = row[key];
                   }
