@@ -874,7 +874,7 @@
           </td>
           <td><input type="date" onchange="updateProjectDuration(this)"></td>
           <td><input type="date" onchange="updateProjectDuration(this)"></td>
-          <td><input type="text" readonly placeholder="Auto-calculated"></td>
+          <td><input type="text" placeholder="Auto-calculated"></td>
           <td><input type="number" placeholder="Budget"></td>
           <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
         `;
@@ -923,7 +923,7 @@
           </td>
           <td><input type="date" onchange="updateProgramDuration(this)"></td>
           <td><input type="date" onchange="updateProgramDuration(this)"></td>
-          <td><input type="text" readonly placeholder="Auto-calculated"></td>
+          <td><input type="text" placeholder="Auto-calculated"></td>
           <td><input type="text" placeholder="Venue"></td>
           <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
         `;
@@ -1016,7 +1016,7 @@
           </td>
           <td><input type="date" onchange="updateTrainDuration(this)"></td>
           <td><input type="date" onchange="updateTrainDuration(this)"></td>
-          <td><input type="text" readonly placeholder="Auto-calculated"></td>
+          <td><input type="text" placeholder="Auto-calculated"></td>
           <td><input type="number" placeholder="No. of participants"></td>
           <td><button type="button" class="btn btn-danger" onclick="deleteRow(this)">Delete</button></td>
         `;
@@ -1047,34 +1047,106 @@
       // durations
       function calculateMonthsDuration(start, end) {
         if (!start || !end) return "";
-        const s = new Date(start),
-          e = new Date(end);
-        let months =
-          (e.getFullYear() - s.getFullYear()) * 12 +
-          (e.getMonth() - s.getMonth());
-        return months + (months === 1 ? " month" : " months");
-      }
-      function calculateFullDuration(start, end) {
-        if (!start || !end) return "";
-        const s = new Date(start),
-          e = new Date(end);
-        let years = e.getFullYear() - s.getFullYear();
-        let months = e.getMonth() - s.getMonth();
-        let days = e.getDate() - s.getDate();
-        if (days < 0) {
-          months--;
-          days += new Date(e.getFullYear(), e.getMonth(), 0).getDate();
+
+        const s = new Date(start);
+        const e = new Date(end);
+
+        if (e < s) return "Invalid dates";
+
+        // Inclusive day difference
+        const diffDays = Math.floor((e - s) / (1000 * 60 * 60 * 24)) + 1;
+
+        // If duration is less than 30 days → show as days
+        if (diffDays < 30) {
+          return diffDays + (diffDays === 1 ? " day" : " days");
         }
-        if (months < 0) {
-          years--;
-          months += 12;
+
+        // Otherwise calculate years + months + days
+        let temp = new Date(s);
+        let years = 0,
+          months = 0;
+
+        // Full years
+        while (true) {
+          const next = new Date(temp);
+          next.setFullYear(next.getFullYear() + 1);
+          if (next <= e) {
+            years++;
+            temp = next;
+          } else break;
         }
+
+        // Full months
+        while (true) {
+          const next = new Date(temp);
+          next.setMonth(next.getMonth() + 1);
+          if (next <= e) {
+            months++;
+            temp = next;
+          } else break;
+        }
+
+        const remainingDays =
+          Math.floor((e - temp) / (1000 * 60 * 60 * 24)) + 1;
+
         const parts = [];
         if (years > 0) parts.push(years + (years === 1 ? " year" : " years"));
         if (months > 0)
           parts.push(months + (months === 1 ? " month" : " months"));
-        if (days > 0) parts.push(days + (days === 1 ? " day" : " days"));
-        return parts.join(", ") || "0 days";
+        if (remainingDays > 0)
+          parts.push(remainingDays + (remainingDays === 1 ? " day" : " days"));
+
+        return parts.join(", ");
+      }
+
+      function calculateFullDuration(start, end) {
+        if (!start || !end) return "";
+
+        const s = new Date(start);
+        const e = new Date(end);
+
+        if (e < s) return "Invalid dates";
+
+        // Calculate raw difference in days
+        // ⭐ Inclusive: add +1 day
+        let diffDays = Math.floor((e - s) / (1000 * 60 * 60 * 24)) + 1;
+
+        // Convert inclusive days into years, months, days
+        let temp = new Date(s);
+        let years = 0,
+          months = 0;
+
+        while (true) {
+          let next = new Date(temp);
+          next.setFullYear(next.getFullYear() + 1);
+
+          if (next <= e) {
+            years++;
+            temp = next;
+          } else break;
+        }
+
+        while (true) {
+          let next = new Date(temp);
+          next.setMonth(next.getMonth() + 1);
+
+          if (next <= e) {
+            months++;
+            temp = next;
+          } else break;
+        }
+
+        let remainingDays = Math.floor((e - temp) / (1000 * 60 * 60 * 24)) + 1; // inclusive
+
+        // Build duration text
+        const parts = [];
+        if (years > 0) parts.push(years + (years === 1 ? " year" : " years"));
+        if (months > 0)
+          parts.push(months + (months === 1 ? " month" : " months"));
+        if (remainingDays > 0)
+          parts.push(remainingDays + (remainingDays === 1 ? " day" : " days"));
+
+        return parts.join(", ");
       }
 
       /* -------------------------
